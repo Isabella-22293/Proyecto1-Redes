@@ -1,4 +1,3 @@
-# engine/analyzer.py
 from .board import empty_board, apply_moves_from_list, alg_from_coord, clone_board, apply_move, count_discs
 from .search import search_best
 from .evaluate import evaluate

@@ -1,5 +1,3 @@
-# engine/board.py
-# Representación de tablero y utilidades
 DIRECTIONS = [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]
 
 def empty_board():

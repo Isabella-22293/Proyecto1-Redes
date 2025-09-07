@@ -1,4 +1,3 @@
-# engine/evaluate.py
 from .board import legal_moves, count_discs, opponent
 
 POS_WEIGHTS = [
