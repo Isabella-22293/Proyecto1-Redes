@@ -1,5 +1,6 @@
-flask>=2.0
-pytest
-requests
-openai
+fastapi
+uvicorn[standard]
 matplotlib
+numpy
+requests
+python-dotenv

@@ -1,9 +1,7 @@
-venv/
 __pycache__/
-*.pyc
+venv/
 .env
-.DS_Store
-
-# test output
-coverage.xml
-htmlcov/
+*.pyc
+reports/
+games/*.json
+*.sqlite3
