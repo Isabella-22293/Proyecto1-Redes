@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException 
 from pathlib import Path
 import json
 import uuid
@@ -87,11 +87,6 @@ async def rpc(request: Request):
         return make_jsonrpc_error(id_, -32000, f"Internal error: {str(e)}")
 
 async def rpc_fetch_game(params):
-    """
-    params:
-      source: 'local'|'random'
-      file_path: if local
-    """
     source = params.get("source", "random")
     if source == "local":
         fp = params.get("file_path")
@@ -106,7 +101,6 @@ async def rpc_fetch_game(params):
             moves = payload.get("moves", [])
             metadata = payload.get("metadata", {})
         except Exception:
-            # fallback: lines
             moves = [l.strip() for l in text.splitlines() if l.strip()]
             metadata = {}
     elif source == "random":
@@ -121,7 +115,6 @@ async def rpc_fetch_game(params):
     return {"game_id": gid, "moves_count": len(moves), "source": source}
 
 async def rpc_load_game(params):
-    # alias
     return await rpc_fetch_game(params)
 
 async def rpc_analyze_game(params):
@@ -141,7 +134,7 @@ async def rpc_analyze_game(params):
     else:
         gid = str(uuid.uuid4())
         GAMES[gid] = {"moves": moves, "analysis": result, "metadata": {}, "created": datetime.utcnow().isoformat()}
-    return {"game_id": gid, "analysis_summary": result.get("summary"), "analysis_length": len(result.get("analysis", []))}
+    return {"game_id": gid, "analysis_summary": result, "analysis_length": len(result.get("pv", []))}
 
 async def rpc_simulate(params):
     gid = params.get("game_id")
@@ -154,10 +147,6 @@ async def rpc_simulate(params):
         raise Exception("game_id not found")
     moves = entry["moves"]
     partial = moves[:until]
-    # analyze partial position
-    res = analyze_game(partial, max_depth=max_depth)
-    # find suggested root move (engine_best for move_index == len(partial))
-    # We compute best move on partial board:
     from othello_engine import Board, find_best_move
     b = Board()
     player = 1
@@ -166,6 +155,7 @@ async def rpc_simulate(params):
             b.apply_move(m, player)
         player = -player
     best_move, pv, val = find_best_move(b, player, max_depth)
+    res = analyze_game(partial, max_depth=max_depth)
     return {"game_id": gid, "until_move": until, "suggested_move": best_move, "pv": pv, "raw_analysis": res}
 
 async def rpc_export_report(params):
@@ -183,10 +173,10 @@ async def rpc_export_report(params):
     base = target_dir / f"{gid}"
     json_path = base.with_suffix(".json")
     json_path.write_text(json.dumps({"game_id":gid, "moves": entry["moves"], "analysis": analysis}, indent=2), encoding="utf-8")
-    # board PNG
+    # --- CORRECCIÓN: usar .b para matriz interna ---
     board = board_after_moves(entry["moves"])
     png_path = base.with_suffix(".png")
-    board_to_png_matrix(board, png_path)
+    board_to_png_matrix(board.b, png_path)
     html_path = base.with_suffix(".html")
     html = f"""<html><head><meta charset='utf-8'><title>Othello Analysis {gid}</title></head><body>
     <h1>Othello Analysis {gid}</h1>
@@ -195,3 +185,8 @@ async def rpc_export_report(params):
     </body></html>"""
     html_path.write_text(html, encoding="utf-8")
     return {"game_id": gid, "json": str(json_path), "html": str(html_path), "png": str(png_path)}
+
+if __name__ == "__main__":
+    import uvicorn
+    print("🚀 Othello MCP server running on http://0.0.0.0:8080/rpc")
+    uvicorn.run("mcp_othello_server:app", host="0.0.0.0", port=8080, reload=False)

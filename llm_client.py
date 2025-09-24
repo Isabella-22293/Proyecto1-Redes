@@ -1,94 +1,75 @@
-import os, time, json
-from typing import List, Dict
+import os
 import requests
-from config import LLM_PROVIDER, ANTHROPIC_API_KEY
+from config import ANTHROPIC_API_KEY, CONTEXT_MAX_MESSAGES
 
 class LLMClient:
     def __init__(self):
-        self.provider = LLM_PROVIDER
         self.api_key = ANTHROPIC_API_KEY
-        self.model = os.getenv("LLM_MODEL", "claude-2")  # ajustar si usas Anthropic
-        # conversation stored as list of {"role": "user"|"assistant"|"system", "content": "..."}
-        self.reset_context()
+        self.base_url = "https://api.anthropic.com/v1/complete"
+        self.context_messages = []
 
-    def reset_context(self, system_prompt: str = None):
-        self.context = []
+    def reset_context(self, system_prompt=""):
+        """Reinicia el contexto con un mensaje del sistema opcional"""
+        self.context_messages = []
         if system_prompt:
-            self.context.append({"role": "system", "content": system_prompt})
+            # Anthropic usa prefijo "system" como mensaje inicial
+            self.context_messages.append({"role": "system", "content": system_prompt})
 
-    def add_user_message(self, text: str):
-        self.context.append({"role": "user", "content": text})
+    def add_assistant_message(self, message):
+        """Agrega un mensaje del asistente al contexto"""
+        self.context_messages.append({"role": "assistant", "content": message})
+        self.trim_context(CONTEXT_MAX_MESSAGES)
 
-    def add_assistant_message(self, text: str):
-        self.context.append({"role": "assistant", "content": text})
+    def get_context_messages(self):
+        """Devuelve los mensajes actuales en contexto"""
+        return self.context_messages
 
-    def get_context_messages(self) -> List[Dict]:
-        return self.context
+    def trim_context(self, max_messages):
+        """Mantiene solo los últimos max_messages en contexto"""
+        self.context_messages = self.context_messages[-max_messages:]
 
-    def trim_context(self, max_msgs: int):
-        if len(self.context) > max_msgs:
-            # keep system (if any) + last max_msgs-1
-            sys_msgs = [m for m in self.context if m["role"] == "system"]
-            others = [m for m in self.context if m["role"] != "system"]
-            keep = sys_msgs + others[-(max_msgs - len(sys_msgs)):]
-            self.context = keep
+    def ask(self, user_input, max_tokens=300):
+        """Envía una pregunta al LLM y devuelve la respuesta"""
+        self.context_messages.append({"role": "user", "content": user_input})
+        # Construye el prompt con los prefijos de Anthropic
+        # Claude espera: Human: ... \nAssistant: ...
+        prompt_parts = []
+        for m in self.context_messages:
+            if m["role"] == "system":
+                prompt_parts.append(f"{m['content']}\n")
+            elif m["role"] == "user":
+                prompt_parts.append(f"Human: {m['content']}\n")
+            elif m["role"] == "assistant":
+                prompt_parts.append(f"Assistant: {m['content']}\n")
+        # Indicar que Anthropic debe responder como Assistant
+        prompt_parts.append("Assistant:")
 
-    def ask(self, prompt: str, max_tokens: int = 1000) -> str:
-        """
-        Añade el prompt a contexto, consulta al provider (o al stub) y devuelve respuesta.
-        """
-        self.add_user_message(prompt)
-        if self.provider.lower() == "anthropic" and self.api_key:
-            return self._ask_anthropic(prompt, max_tokens)
-        else:
-            return self._ask_stub(prompt)
+        prompt = "".join(prompt_parts)
 
-    def _ask_stub(self, prompt: str) -> str:
-        # respuesta simple: eco + ayuda sobre comandos MCP
-        resp = f"(respuesta-STUB) He leído tu pregunta: {prompt}\n\nComandos útiles:\n" \
-               "/load_local_game <ruta>  - cargar partida local en servidor Othello\n" \
-               "/analyze <game_id>       - analizar partida\n" \
-               "/simulate <game_id> <n>  - simular hasta n\n" \
-               "Si quieres usar Anthropic, configura ANTHROPIC_API_KEY y LLM_PROVIDER=anthropic.\n"
-        self.add_assistant_message(resp)
-        return resp
-
-    def _ask_anthropic(self, prompt: str, max_tokens: int) -> str:
-        """
-        Implementación HTTP básica para Anthropic. **Verifica** el endpoint y encabezados
-        según la versión de la API que uses; algunos SDK exigen Authorization Bearer u otra cabecera.
-        """
-        # construir 'prompt' concatenando contexto (simple)
-        messages = []
-        for m in self.context:
-            role = m["role"]
-            content = m["content"]
-            messages.append(f"{role.upper()}:\n{content}\n")
-        full_prompt = "\n\n".join(messages)
-        # La API de Anthropic históricamente usaba /v1/complete o endpoints similares.
-        # Aquí hacemos un intento con el endpoint público:
-        url = "https://api.anthropic.com/v1/complete"
-        headers = {
-            "x-api-key": self.api_key,        # si tu versión requiere Bearer, cámbialo
-            "Content-Type": "application/json"
-        }
-        body = {
-            "model": self.model,
-            "prompt": full_prompt + "\n\nAssistant:",
+        payload = {
+            "model": "claude-2",
+            "prompt": prompt,
             "max_tokens_to_sample": max_tokens,
-            "temperature": 0.2,
+            "temperature": 0.7,
+            "stop_sequences": ["\nHuman:"]
         }
-        r = requests.post(url, json=body, headers=headers, timeout=30)
-        r.raise_for_status()
-        data = r.json()
-        # la estructura de respuesta puede variar; aquí asumimos `completion` / `output` / `text`
-        # intenta mapear según la respuesta real de tu cuenta
-        if "completion" in data:
-            text = data["completion"]
-        elif "output" in data and isinstance(data["output"], list):
-            # caso: salida en bloques
-            text = " ".join([o.get("content", "") for o in data["output"]])
-        else:
-            text = data.get("text") or data.get("completion") or str(data)
-        self.add_assistant_message(text)
-        return text
+
+        headers = {
+            "x-api-key": self.api_key,
+            "Content-Type": "application/json",
+            "Anthropic-Version": "2023-06-01"
+        }
+
+        try:
+            response = requests.post(self.base_url, json=payload, headers=headers, timeout=60)
+            response.raise_for_status()
+            data = response.json()
+            completion = data.get("completion", "").strip()
+            # Guarda la respuesta en contexto
+            self.context_messages.append({"role": "assistant", "content": completion})
+            self.trim_context(CONTEXT_MAX_MESSAGES)
+            return completion
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"LLM request failed: {str(e)}")
+        except ValueError:
+            raise Exception(f"LLM response could not be decoded: {response.text}")

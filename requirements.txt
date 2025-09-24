@@ -4,3 +4,4 @@ matplotlib
 numpy
 requests
 python-dotenv
+PySimpleGUI --extra-index-url https://PySimpleGUI.net/install

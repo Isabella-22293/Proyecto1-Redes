@@ -3,7 +3,7 @@ import json
 import uuid
 from typing import Any, Dict
 
-def call_mcp(endpoint: str, method: str, params: Dict[str, Any] = None, timeout: int = 20):
+def call_mcp(endpoint: str, method: str, params: Dict[str, Any] = None, timeout: int = 60):
     """
     Llama un servidor MCP/JSON-RPC.
     Devuelve dict con la respuesta JSON (o lanza excepción).

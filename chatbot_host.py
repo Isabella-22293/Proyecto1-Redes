@@ -1,9 +1,13 @@
-import os, sys, time, json
+import os
+import sys
+import time
+import json
+from pathlib import Path
 from config import OTHELLO_MCP_ENDPOINT, FILESYSTEM_MCP_ENDPOINT, GIT_MCP_ENDPOINT, LOG_PATH, CONTEXT_MAX_MESSAGES
 from llm_client import LLMClient
 from mcp_client import call_mcp
-from pathlib import Path
 
+# Preparar carpeta de logs
 LOG_PATH = Path(LOG_PATH)
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
@@ -31,14 +35,16 @@ def interactive_loop():
     llm.reset_context(system_prompt=system_prompt)
 
     print("=== MCP Chatbot anfitrión (consola) ===")
-    print("Escribe preguntas o usa comandos. Comandos disponibles: ")
+    print("Comandos disponibles:")
     print("/help, /reset, /context, /ask <texto>")
-    print("/load_local_game <ruta>  -> carga partida en servidor Othello local")
-    print("/analyze <game_id>       -> analiza la partida con el servidor Othello")
-    print("/simulate <game_id> <n>  -> simula hasta n jugadas")
-    print("/export <game_id>        -> exporta reporte (json/html/png)")
-    print("/git_create_repo <name>  -> intenta crear repo usando endpoint GIT_MCP_ENDPOINT")
-    print("/fs_write <path> <text>  -> intenta escribir archivo usando FILESYSTEM_MCP_ENDPOINT")
+    print("/load_local_game <ruta>")
+    print("/analyze <game_id>")
+    print("/simulate <game_id> <n>")
+    print("/export <game_id>")
+    print("/git_create_repo <name>")
+    print("/fs_write <path> <texto>")
+    print("/fs_read <path>")
+    print("/fs_list <carpeta>")
     print("/exit")
     print("--------------------------------------------------")
 
@@ -56,7 +62,7 @@ def interactive_loop():
             cmd = parts[0].lower()
             try:
                 if cmd == "/help":
-                    print("Comandos: /help, /reset, /context, /ask, /load_local_game, /analyze, /simulate, /export, /git_create_repo, /fs_write, /exit")
+                    print("Comandos: /help, /reset, /context, /ask, /load_local_game, /analyze, /simulate, /export, /git_create_repo, /fs_write, /fs_read, /fs_list, /exit")
                 elif cmd == "/reset":
                     llm.reset_context(system_prompt=system_prompt)
                     print("Contexto reiniciado.")
@@ -70,7 +76,6 @@ def interactive_loop():
                     resp = llm.ask(q)
                     print("LLM:", resp)
                     log_entry({"type":"llm_response", "text": resp})
-                    # trim context to keep tokens small
                     llm.trim_context(CONTEXT_MAX_MESSAGES)
                 elif cmd == "/load_local_game":
                     if len(parts) < 2:
@@ -80,14 +85,16 @@ def interactive_loop():
                     res = safe_call_mcp(OTHELLO_MCP_ENDPOINT, "load_game", {"source":"local", "file_path": path})
                     print("Resultado load_game:")
                     pretty_print_json(res)
-                    # agrega un mensaje al contexto para referencia
+                    # Guardar game_id
+                    with open("last_game_id.txt", "w") as f:
+                        f.write(res.get("game_id", ""))
                     llm.add_assistant_message(f"Cargada partida con id {res.get('game_id')}, movimientos: {res.get('moves_count')}")
                 elif cmd == "/analyze":
                     if len(parts) < 2:
                         print("Sintaxis: /analyze <game_id>")
                         continue
                     gid = parts[1]
-                    res = safe_call_mcp(OTHELLO_MCP_ENDPOINT, "analyze_game", {"game_id": gid, "max_depth": 4})
+                    res = safe_call_mcp(OTHELLO_MCP_ENDPOINT, "analyze_game", {"game_id": gid, "max_depth": 2})
                     print("Análisis:")
                     pretty_print_json(res)
                 elif cmd == "/simulate":
@@ -105,11 +112,32 @@ def interactive_loop():
                         continue
                     gid = parts[1]
                     res = safe_call_mcp(OTHELLO_MCP_ENDPOINT, "export_report", {"game_id": gid, "format": "both"})
-                    print("Export result:")
-                    pretty_print_json(res)
+
+                    moves = res.get("moves", [])
+                    moves_count = len(moves) if moves else "unknown"
+                    analysis_json = json.dumps(res.get("analysis", {}), indent=2, ensure_ascii=False)
+
+                    # Imagen del tablero
+                    Path("reports").mkdir(exist_ok=True)
+                    img_file = f"reports/{gid}.png"
+                    img_tag = f'<img src="{img_file}" alt="board"/>' if os.path.exists(img_file) else "<p>board</p>"
+
+                    html_content = f"""<html><head><meta charset='utf-8'>
+<title>Othello Analysis {gid}</title></head><body>
+<h1>Othello Analysis {gid}</h1>
+<p>Moves: {moves_count}</p>
+{img_tag}<pre>{analysis_json}</pre>
+</body></html>"""
+
+                    html_file = f"reports/{gid}.html"
+                    with open(html_file, "w", encoding="utf-8") as f:
+                        f.write(html_content)
+
+                    print(f"Export result: guardado en {html_file}")
+
                 elif cmd == "/git_create_repo":
                     if not GIT_MCP_ENDPOINT:
-                        print("GIT_MCP_ENDPOINT no configurado en config.py / env.")
+                        print("GIT_MCP_ENDPOINT no configurado.")
                         continue
                     if len(parts) < 2:
                         print("Sintaxis: /git_create_repo <nombre>")
@@ -120,7 +148,7 @@ def interactive_loop():
                     pretty_print_json(res)
                 elif cmd == "/fs_write":
                     if not FILESYSTEM_MCP_ENDPOINT:
-                        print("FILESYSTEM_MCP_ENDPOINT no configurado en config.py / env.")
+                        print("FILESYSTEM_MCP_ENDPOINT no configurado.")
                         continue
                     if len(parts) < 3:
                         print("Sintaxis: /fs_write <ruta> <texto>")
@@ -129,6 +157,27 @@ def interactive_loop():
                     res = safe_call_mcp(FILESYSTEM_MCP_ENDPOINT, "filesystem.write_file", {"path": path, "content": text})
                     print("filesystem.write_file result:")
                     pretty_print_json(res)
+                elif cmd == "/fs_read":
+                    if not FILESYSTEM_MCP_ENDPOINT:
+                        print("FILESYSTEM_MCP_ENDPOINT no configurado.")
+                        continue
+                    if len(parts) < 2:
+                        print("Sintaxis: /fs_read <ruta>")
+                        continue
+                    path = parts[1]
+                    res = safe_call_mcp(FILESYSTEM_MCP_ENDPOINT, "filesystem.read_file", {"path": path})
+                    print("filesystem.read_file result:")
+                    pretty_print_json(res)
+                elif cmd == "/fs_list":
+                    if not FILESYSTEM_MCP_ENDPOINT:
+                        print("FILESYSTEM_MCP_ENDPOINT no configurado.")
+                        continue
+                    if len(parts) < 2:
+                        print("Sintaxis: /fs_list <carpeta>")
+                        continue
+                    folder = parts[1]
+                    res = safe_call_mcp(FILESYSTEM_MCP_ENDPOINT, "filesystem.list_dir", {"path": folder})
+                    print(f"Archivos en '{folder}': {res.get('files', [])}")
                 elif cmd == "/exit":
                     print("Adiós.")
                     break
@@ -138,9 +187,12 @@ def interactive_loop():
                 print("Error al ejecutar comando:", e)
         else:
             # mensaje libre -> preguntar LLM
-            resp = llm.ask(line)
-            print("LLM:", resp)
-            log_entry({"type":"llm_response", "text": resp})
+            try:
+                resp = llm.ask(line)
+                print("LLM:", resp)
+                log_entry({"type":"llm_response", "text": resp})
+            except Exception as e:
+                print("Error LLM:", e)
 
 if __name__ == "__main__":
     interactive_loop()

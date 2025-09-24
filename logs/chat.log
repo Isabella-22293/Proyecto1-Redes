@@ -1,0 +1,223 @@
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T17:33:51Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T17:33:51Z"}
+{"type": "mcp_error", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "error": "HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /rpc (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D10F6DF0E0>: Failed to establish a new connection: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión'))", "ts": "2025-09-23T17:33:55Z"}
+{"type": "user_input", "text": "clear", "ts": "2025-09-23T17:40:33Z"}
+{"type": "llm_response", "text": "(respuesta-STUB) He leído tu pregunta: clear\n\nComandos útiles:\n/load_local_game <ruta>  - cargar partida local en servidor Othello\n/analyze <game_id>       - analizar partida\n/simulate <game_id> <n>  - simular hasta n\nSi quieres usar Anthropic, configura ANTHROPIC_API_KEY y LLM_PROVIDER=anthropic.\n", "ts": "2025-09-23T17:40:33Z"}
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T17:41:05Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T17:41:05Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "fe6d8922-b5b1-450b-8177-4d332f5478b4", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T17:41:07Z"}
+{"type": "user_input", "text": "/analyze fe6d8922-b5b1-450b-8177-4d332f5478b4", "ts": "2025-09-23T17:44:02Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "fe6d8922-b5b1-450b-8177-4d332f5478b4", "max_depth": 4}, "ts": "2025-09-23T17:44:02Z"}
+{"type": "mcp_error", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "error": "HTTPConnectionPool(host='localhost', port=8080): Read timed out. (read timeout=20)", "ts": "2025-09-23T17:44:24Z"}
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T17:48:29Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T17:48:29Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T17:48:32Z"}
+{"type": "user_input", "text": "/analyze fe6d8922-b5b1-450b-8177-4d332f5478b4", "ts": "2025-09-23T17:49:02Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "fe6d8922-b5b1-450b-8177-4d332f5478b4", "max_depth": 2}, "ts": "2025-09-23T17:49:02Z"}
+{"type": "mcp_error", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "error": "MCP error: {'code': -32000, 'message': 'Internal error: game_id not found'}", "ts": "2025-09-23T17:49:04Z"}
+{"type": "user_input", "text": "/analyze 5ab92032-75fa-4d7e-94a7-53c3ec31b189", "ts": "2025-09-23T17:49:19Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "max_depth": 2}, "ts": "2025-09-23T17:49:19Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T17:49:22Z"}
+{"type": "user_input", "text": "/export fe6d8922-b5b1-450b-8177-4d332f5478b4", "ts": "2025-09-23T17:51:07Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "fe6d8922-b5b1-450b-8177-4d332f5478b4", "format": "both"}, "ts": "2025-09-23T17:51:07Z"}
+{"type": "mcp_error", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "error": "MCP error: {'code': -32000, 'message': 'Internal error: game_id not found'}", "ts": "2025-09-23T17:51:09Z"}
+{"type": "user_input", "text": "/export 5ab92032-75fa-4d7e-94a7-53c3ec31b189", "ts": "2025-09-23T17:57:53Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "format": "both"}, "ts": "2025-09-23T17:57:53Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\5ab92032-75fa-4d7e-94a7-53c3ec31b189.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\5ab92032-75fa-4d7e-94a7-53c3ec31b189.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\5ab92032-75fa-4d7e-94a7-53c3ec31b189.png"}, "ts": "2025-09-23T17:57:57Z"}
+{"type": "user_input", "text": "/simulate 5ab92032-75fa-4d7e-94a7-53c3ec31b189 10", "ts": "2025-09-23T18:07:43Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "until_move": 10, "max_depth": 4}, "ts": "2025-09-23T18:07:43Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"game_id": "5ab92032-75fa-4d7e-94a7-53c3ec31b189", "until_move": 10, "suggested_move": "c6", "pv": ["c6", "b4", "e6", "d3"], "raw_analysis": {"analysis": [{"move_index": 0, "player": "black", "move": "c4", "engine_best": "d3", "pv": ["d3", "c5", "b6", "f3"], "score_after_best_from_player_perspective": 3, "score_after_actual_from_player_perspective": 3, "score_diff": 0, "is_error": false, "explanation": ""}, {"move_index": 1, "player": "white", "move": "e3", "engine_best": "e3", "pv": ["e3", "f6", "c5", "f4"], "score_after_best_from_player_perspective": -10, "score_after_actual_from_player_perspective": -10, "score_diff": 0, "is_error": false, "explanation": ""}, {"move_index": 2, "player": "black", "move": "f5", "engine_best": "f6", "pv": ["f6", "c5", "f4", "f5"], "score_after_best_from_player_perspective": 3, "score_after_actual_from_player_perspective": 3, "score_diff": 0, "is_error": false, "explanation": ""}, {"move_index": 3, "player": "white", "move": "c5", "engine_best": "b4", "pv": ["b4", "b3", "g6", "c3"], "score_after_best_from_player_perspective": 2, "score_after_actual_from_player_perspective": 10, "score_diff": -8, "is_error": false, "explanation": ""}, {"move_index": 4, "player": "black", "move": "b5", "engine_best": "f4", "pv": ["f4", "c3", "b3", "f6"], "score_after_best_from_player_perspective": 35, "score_after_actual_from_player_perspective": -7, "score_diff": 42, "is_error": true, "explanation": "Movimiento grave: la heurística muestra pérdida significativa de ventaja."}, {"move_index": 5, "player": "white", "move": "f6", "engine_best": "d6", "pv": ["d6", "e2", "a5", "c6"], "score_after_best_from_player_perspective": 10, "score_after_actual_from_player_perspective": 30, "score_diff": -20, "is_error": false, "explanation": ""}, {"move_index": 6, "player": "black", "move": "f3", "engine_best": "f4", "pv": ["f4", "b6", "d3", "c3"], "score_after_best_from_player_perspective": 15, "score_after_actual_from_player_perspective": -17, "score_diff": 32, "is_error": true, "explanation": "Movimiento grave: la heurística muestra pérdida significativa de ventaja."}, {"move_index": 7, "player": "white", "move": "d6", "engine_best": "f4", "pv": ["f4", "f2", "e2", "d3"], "score_after_best_from_player_perspective": 32, "score_after_actual_from_player_perspective": 10, "score_diff": 22, "is_error": true, "explanation": "Movimiento grave: la heurística muestra pérdida significativa de ventaja."}, {"move_index": 8, "player": "black", "move": "e2", "engine_best": "e6", "pv": ["e6", "b4", "a4", "e7"], "score_after_best_from_player_perspective": 65, "score_after_actual_from_player_perspective": -47, "score_diff": 112, "is_error": true, "explanation": "Movimiento grave: la heurística muestra pérdida significativa de ventaja."}, {"move_index": 9, "player": "white", "move": "g5", "engine_best": "b6", "pv": ["b6", "a7", "e1", "f4"], "score_after_best_from_player_perspective": 40, "score_after_actual_from_player_perspective": 40, "score_diff": 0, "is_error": false, "explanation": ""}], "summary": {"moves_count": 10, "errors_count": 4, "first_error_index": 4}}}, "ts": "2025-09-23T18:07:48Z"}
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T20:46:26Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T20:46:26Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "cdf5ec56-5926-4414-87f3-0d34cf630d16", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T20:46:28Z"}
+{"type": "user_input", "text": "/analyze cdf5ec56-5926-4414-87f3-0d34cf630d16", "ts": "2025-09-23T20:46:49Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "cdf5ec56-5926-4414-87f3-0d34cf630d16", "max_depth": 2}, "ts": "2025-09-23T20:46:49Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "cdf5ec56-5926-4414-87f3-0d34cf630d16", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T20:46:52Z"}
+{"type": "user_input", "text": "/export cdf5ec56-5926-4414-87f3-0d34cf630d16", "ts": "2025-09-23T20:47:10Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "cdf5ec56-5926-4414-87f3-0d34cf630d16", "format": "both"}, "ts": "2025-09-23T20:47:10Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "cdf5ec56-5926-4414-87f3-0d34cf630d16", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\cdf5ec56-5926-4414-87f3-0d34cf630d16.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\cdf5ec56-5926-4414-87f3-0d34cf630d16.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\cdf5ec56-5926-4414-87f3-0d34cf630d16.png"}, "ts": "2025-09-23T20:47:13Z"}
+{"type": "user_input", "text": "bash scripts/smoke_test.sh", "ts": "2025-09-23T21:16:33Z"}
+{"type": "llm_response", "text": "(respuesta-STUB) He leído tu pregunta: bash scripts/smoke_test.sh\n\nComandos útiles:\n/load_local_game <ruta>  - cargar partida local en servidor Othello\n/analyze <game_id>       - analizar partida\n/simulate <game_id> <n>  - simular hasta n\nSi quieres usar Anthropic, configura ANTHROPIC_API_KEY y LLM_PROVIDER=anthropic.\n", "ts": "2025-09-23T21:16:33Z"}
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T22:17:48Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:17:48Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:17:50Z"}
+{"type": "user_input", "text": "/analize bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "ts": "2025-09-23T22:18:34Z"}
+{"type": "user_input", "text": "/analyze bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "ts": "2025-09-23T22:19:07Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "max_depth": 2}, "ts": "2025-09-23T22:19:07Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T22:19:10Z"}
+{"type": "user_input", "text": "/export bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "ts": "2025-09-23T22:19:24Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "format": "both"}, "ts": "2025-09-23T22:19:24Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "bf9582f4-150f-4f0a-bdf2-673b4f3917f9", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\bf9582f4-150f-4f0a-bdf2-673b4f3917f9.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\bf9582f4-150f-4f0a-bdf2-673b4f3917f9.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\bf9582f4-150f-4f0a-bdf2-673b4f3917f9.png"}, "ts": "2025-09-23T22:19:27Z"}
+{"type": "user_input", "text": "/load_local_game games/sample_game.json", "ts": "2025-09-23T22:24:54Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:24:54Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "e2e5509e-91db-488c-89fd-2a0cf67c8b58", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:24:56Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:34:45Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "0d4c7fef-c657-44c4-ad87-138c6dee69ed", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:34:47Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:40:05Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:40:07Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:42:01Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "76edaa82-ca38-4f66-b26f-6a0c40e7d68e", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:42:03Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c", "max_depth": 2}, "ts": "2025-09-23T22:42:04Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T22:42:07Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c", "format": "both"}, "ts": "2025-09-23T22:42:07Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\9165a26b-f2a3-4dc2-93e5-fd6cc0911e7c.png"}, "ts": "2025-09-23T22:42:10Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:43:26Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "ed218774-05f6-4d2a-9ce2-0d5d70f8ad26", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:43:28Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "ed218774-05f6-4d2a-9ce2-0d5d70f8ad26", "max_depth": 2}, "ts": "2025-09-23T22:43:28Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "ed218774-05f6-4d2a-9ce2-0d5d70f8ad26", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T22:43:32Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "ed218774-05f6-4d2a-9ce2-0d5d70f8ad26", "format": "both"}, "ts": "2025-09-23T22:43:32Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "ed218774-05f6-4d2a-9ce2-0d5d70f8ad26", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\ed218774-05f6-4d2a-9ce2-0d5d70f8ad26.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\ed218774-05f6-4d2a-9ce2-0d5d70f8ad26.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\ed218774-05f6-4d2a-9ce2-0d5d70f8ad26.png"}, "ts": "2025-09-23T22:43:35Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:44:52Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "de443da8-b21f-4957-b8e7-9761d41f10bb", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:44:54Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:46:09Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "15bd30ea-2947-4066-a10a-152078b08fe8", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:46:11Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "games/sample_game.json"}, "ts": "2025-09-23T22:47:50Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "f2dca670-c28b-4a6a-beb3-74e81fb93658", "moves_count": 60, "source": "local"}, "ts": "2025-09-23T22:47:52Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "f2dca670-c28b-4a6a-beb3-74e81fb93658", "max_depth": 2}, "ts": "2025-09-23T22:47:52Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"game_id": "f2dca670-c28b-4a6a-beb3-74e81fb93658", "analysis_summary": {"moves_count": 60, "errors_count": 42, "first_error_index": 4}, "analysis_length": 60}, "ts": "2025-09-23T22:47:55Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "f2dca670-c28b-4a6a-beb3-74e81fb93658", "format": "both"}, "ts": "2025-09-23T22:47:56Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"game_id": "f2dca670-c28b-4a6a-beb3-74e81fb93658", "json": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\f2dca670-c28b-4a6a-beb3-74e81fb93658.json", "html": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\f2dca670-c28b-4a6a-beb3-74e81fb93658.html", "png": "D:\\Documentos\\Octavo Semestre\\Redes\\Proyecto1-Redes\\reports\\f2dca670-c28b-4a6a-beb3-74e81fb93658.png"}, "ts": "2025-09-23T22:47:59Z"}
+{"type": "user_input", "text": ">> /ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:38:15Z"}
+{"type": "user_input", "text": ">> /ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:42:07Z"}
+{"type": "user_input", "text": ">> /fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T02:44:11Z"}
+{"type": "user_input", "text": ">> /git_create_repo prueba", "ts": "2025-09-24T02:44:23Z"}
+{"type": "user_input", "text": ">> /fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T02:45:50Z"}
+{"type": "user_input", "text": "/ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:52:02Z"}
+{"type": "user_input", "text": "/ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:53:01Z"}
+{"type": "user_input", "text": "/ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:53:41Z"}
+{"type": "user_input", "text": "/ask ¿Quién fue Alan Turing?", "ts": "2025-09-24T02:54:31Z"}
+{"type": "user_input", "text": ">> /fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T02:54:43Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T02:55:07Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T02:55:07Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "1b287553-cf03-4849-b60e-4699388f75fb", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T02:55:09Z"}
+{"type": "user_input", "text": "/analyze 123e4567-e89b-12d3-a456-426614174000", "ts": "2025-09-24T02:55:27Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "123e4567-e89b-12d3-a456-426614174000", "max_depth": 2}, "ts": "2025-09-24T02:55:27Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 123e4567-e89b-12d3-a456-426614174000"}, "ts": "2025-09-24T02:55:29Z"}
+{"type": "user_input", "text": "/git_create_repo mi_prueba", "ts": "2025-09-24T02:55:46Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "params": {"name": "mi_prueba"}, "ts": "2025-09-24T02:55:46Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "result": {"status": "ok", "repo_id": "9ef1ad87-b4a6-4066-80be-ebb054b1d556", "name": "mi_prueba"}, "ts": "2025-09-24T02:55:48Z"}
+{"type": "user_input", "text": "/fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T02:56:26Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "params": {"path": "test.txt", "content": "\"Hola mundo desde MCP\""}, "ts": "2025-09-24T02:56:26Z"}
+{"type": "mcp_error", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "error": "500 Server Error: Internal Server Error for url: http://localhost:8081/rpc", "ts": "2025-09-24T02:56:28Z"}
+{"type": "user_input", "text": "/fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T02:58:31Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "params": {"path": "test.txt", "content": "\"Hola mundo desde MCP\""}, "ts": "2025-09-24T02:58:31Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "result": {"status": "ok", "path": "test.txt"}, "ts": "2025-09-24T02:58:33Z"}
+{"type": "user_input", "text": "/fs_read test.txt", "ts": "2025-09-24T03:00:45Z"}
+{"type": "user_input", "text": "/export 123e4567-e89b-12d3-a456-426614174000", "ts": "2025-09-24T03:02:11Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "123e4567-e89b-12d3-a456-426614174000", "format": "both"}, "ts": "2025-09-24T03:02:11Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 123e4567-e89b-12d3-a456-426614174000"}, "ts": "2025-09-24T03:02:13Z"}
+{"type": "user_input", "text": ">> /load_local_game partidas/partida1.json", "ts": "2025-09-24T03:05:54Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:08:47Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:08:47Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "e542aeb1-f352-4264-9a08-30b21e2ff3ff", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:08:49Z"}
+{"type": "user_input", "text": "/analyze 1b287553-cf03-4849-b60e-4699388f75fb", "ts": "2025-09-24T03:09:01Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "1b287553-cf03-4849-b60e-4699388f75fb", "max_depth": 2}, "ts": "2025-09-24T03:09:01Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 1b287553-cf03-4849-b60e-4699388f75fb"}, "ts": "2025-09-24T03:09:03Z"}
+{"type": "user_input", "text": "/simulate 1b287553-cf03-4849-b60e-4699388f75fb 5", "ts": "2025-09-24T03:09:12Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "1b287553-cf03-4849-b60e-4699388f75fb", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:09:12Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 1b287553-cf03-4849-b60e-4699388f75fb"}, "ts": "2025-09-24T03:09:14Z"}
+{"type": "user_input", "text": "/export 1b287553-cf03-4849-b60e-4699388f75fb", "ts": "2025-09-24T03:09:25Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "1b287553-cf03-4849-b60e-4699388f75fb", "format": "both"}, "ts": "2025-09-24T03:09:25Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 1b287553-cf03-4849-b60e-4699388f75fb"}, "ts": "2025-09-24T03:09:27Z"}
+{"type": "user_input", "text": "/git_create_repo mi_prueba", "ts": "2025-09-24T03:10:10Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "params": {"name": "mi_prueba"}, "ts": "2025-09-24T03:10:10Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "result": {"status": "ok", "repo_id": "25573c57-7813-46e2-ab8e-28baadcc8dc0", "name": "mi_prueba"}, "ts": "2025-09-24T03:10:12Z"}
+{"type": "user_input", "text": "/fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T03:10:27Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "params": {"path": "test.txt", "content": "\"Hola mundo desde MCP\""}, "ts": "2025-09-24T03:10:27Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.write_file", "result": {"status": "ok", "path": "test.txt"}, "ts": "2025-09-24T03:10:29Z"}
+{"type": "user_input", "text": "/fs_read test.txt", "ts": "2025-09-24T03:10:34Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.read_file", "params": {"path": "test.txt"}, "ts": "2025-09-24T03:10:34Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8081/rpc", "method": "filesystem.read_file", "result": {"status": "ok", "content": "\"Hola mundo desde MCP\""}, "ts": "2025-09-24T03:10:36Z"}
+{"type": "user_input", "text": "/fs_list .", "ts": "2025-09-24T03:10:43Z"}
+{"type": "user_input", "text": ">> /load_local_game partidas/partida1.json", "ts": "2025-09-24T03:14:22Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:15:38Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:15:39Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "9b7601f4-e419-40a9-8f94-7fce17aa3e6b", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:15:41Z"}
+{"type": "user_input", "text": "/analyze 123e4567-e89b-12d3-a456-426614174000", "ts": "2025-09-24T03:15:48Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "123e4567-e89b-12d3-a456-426614174000", "max_depth": 2}, "ts": "2025-09-24T03:15:48Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 123e4567-e89b-12d3-a456-426614174000"}, "ts": "2025-09-24T03:15:50Z"}
+{"type": "user_input", "text": "/export 123e4567-e89b-12d3-a456-426614174000", "ts": "2025-09-24T03:15:59Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "123e4567-e89b-12d3-a456-426614174000", "format": "both"}, "ts": "2025-09-24T03:15:59Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 123e4567-e89b-12d3-a456-426614174000"}, "ts": "2025-09-24T03:16:01Z"}
+{"type": "user_input", "text": "/simulate 123e4567-e89b-12d3-a456-426614174000", "ts": "2025-09-24T03:16:50Z"}
+{"type": "user_input", "text": ">> /load_local_game partidas/partida1.json", "ts": "2025-09-24T03:17:32Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:17:43Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:17:43Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "70229b3b-2983-47ff-9d1e-c4c5983e0265", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:17:45Z"}
+{"type": "user_input", "text": "/analyze 70229b3b-2983-47ff-9d1e-c4c5983e0265", "ts": "2025-09-24T03:18:10Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "70229b3b-2983-47ff-9d1e-c4c5983e0265", "max_depth": 2}, "ts": "2025-09-24T03:18:10Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 70229b3b-2983-47ff-9d1e-c4c5983e0265"}, "ts": "2025-09-24T03:18:12Z"}
+{"type": "user_input", "text": "/simulate 70229b3b-2983-47ff-9d1e-c4c5983e0265", "ts": "2025-09-24T03:18:21Z"}
+{"type": "user_input", "text": "/simulate 70229b3b-2983-47ff-9d1e-c4c5983e0265 5", "ts": "2025-09-24T03:18:39Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "70229b3b-2983-47ff-9d1e-c4c5983e0265", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:18:39Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 70229b3b-2983-47ff-9d1e-c4c5983e0265"}, "ts": "2025-09-24T03:18:41Z"}
+{"type": "user_input", "text": "/export 70229b3b-2983-47ff-9d1e-c4c5983e0265", "ts": "2025-09-24T03:19:01Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "70229b3b-2983-47ff-9d1e-c4c5983e0265", "format": "both"}, "ts": "2025-09-24T03:19:01Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 70229b3b-2983-47ff-9d1e-c4c5983e0265"}, "ts": "2025-09-24T03:19:03Z"}
+{"type": "user_input", "text": "/git_create_repo mi_prueba", "ts": "2025-09-24T03:19:12Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "params": {"name": "mi_prueba"}, "ts": "2025-09-24T03:19:12Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "result": {"status": "ok", "repo_id": "7be46b8a-b431-4909-b286-0c2615f94798", "name": "mi_prueba"}, "ts": "2025-09-24T03:19:14Z"}
+{"type": "user_input", "text": ">> /load_local_game partidas/partida1.json", "ts": "2025-09-24T03:21:59Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:22:25Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:22:25Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:22:27Z"}
+{"type": "user_input", "text": "analyze 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "ts": "2025-09-24T03:22:52Z"}
+{"type": "user_input", "text": "/analyze 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "ts": "2025-09-24T03:23:25Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "max_depth": 2}, "ts": "2025-09-24T03:23:25Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5"}, "ts": "2025-09-24T03:23:27Z"}
+{"type": "user_input", "text": "/simulate 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "ts": "2025-09-24T03:23:38Z"}
+{"type": "user_input", "text": "/simulate 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5 5", "ts": "2025-09-24T03:23:43Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:23:43Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5"}, "ts": "2025-09-24T03:23:45Z"}
+{"type": "user_input", "text": "/export 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "ts": "2025-09-24T03:23:57Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "54e665c6-edaa-45e3-84a5-e3cc40e8e8f5", "format": "both"}, "ts": "2025-09-24T03:23:57Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 54e665c6-edaa-45e3-84a5-e3cc40e8e8f5"}, "ts": "2025-09-24T03:23:59Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:26:06Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:26:06Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "408e1933-045f-450c-ac90-f39c0e46bb1d", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:26:09Z"}
+{"type": "user_input", "text": "/analyze 408e1933-045f-450c-ac90-f39c0e46bb1d", "ts": "2025-09-24T03:26:21Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "408e1933-045f-450c-ac90-f39c0e46bb1d", "max_depth": 2}, "ts": "2025-09-24T03:26:21Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 408e1933-045f-450c-ac90-f39c0e46bb1d"}, "ts": "2025-09-24T03:26:23Z"}
+{"type": "user_input", "text": "/simulate 408e1933-045f-450c-ac90-f39c0e46bb1d 5", "ts": "2025-09-24T03:26:36Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "408e1933-045f-450c-ac90-f39c0e46bb1d", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:26:36Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 408e1933-045f-450c-ac90-f39c0e46bb1d"}, "ts": "2025-09-24T03:26:38Z"}
+{"type": "user_input", "text": "/export 408e1933-045f-450c-ac90-f39c0e46bb1d", "ts": "2025-09-24T03:26:49Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "408e1933-045f-450c-ac90-f39c0e46bb1d", "format": "both"}, "ts": "2025-09-24T03:26:49Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 408e1933-045f-450c-ac90-f39c0e46bb1d"}, "ts": "2025-09-24T03:26:51Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:29:18Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:29:18Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "3cfa239f-ca91-441a-b90c-4b91b33897d9", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:29:20Z"}
+{"type": "user_input", "text": "/analyze 3cfa239f-ca91-441a-b90c-4b91b33897d9", "ts": "2025-09-24T03:29:33Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "3cfa239f-ca91-441a-b90c-4b91b33897d9", "max_depth": 2}, "ts": "2025-09-24T03:29:33Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 3cfa239f-ca91-441a-b90c-4b91b33897d9"}, "ts": "2025-09-24T03:29:35Z"}
+{"type": "user_input", "text": "/simulate 3cfa239f-ca91-441a-b90c-4b91b33897d9", "ts": "2025-09-24T03:29:44Z"}
+{"type": "user_input", "text": "/simulate 3cfa239f-ca91-441a-b90c-4b91b33897d9 5", "ts": "2025-09-24T03:29:50Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "3cfa239f-ca91-441a-b90c-4b91b33897d9", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:29:50Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 3cfa239f-ca91-441a-b90c-4b91b33897d9"}, "ts": "2025-09-24T03:29:52Z"}
+{"type": "user_input", "text": "/export 3cfa239f-ca91-441a-b90c-4b91b33897d9", "ts": "2025-09-24T03:30:02Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "3cfa239f-ca91-441a-b90c-4b91b33897d9", "format": "both"}, "ts": "2025-09-24T03:30:02Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 3cfa239f-ca91-441a-b90c-4b91b33897d9"}, "ts": "2025-09-24T03:30:04Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:32:01Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:32:01Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "0352f7d8-6af3-4e11-b5c6-66f097b8cadc", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:32:03Z"}
+{"type": "user_input", "text": "/analyze 0352f7d8-6af3-4e11-b5c6-66f097b8cadc", "ts": "2025-09-24T03:32:34Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "0352f7d8-6af3-4e11-b5c6-66f097b8cadc", "max_depth": 2}, "ts": "2025-09-24T03:32:34Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 0352f7d8-6af3-4e11-b5c6-66f097b8cadc"}, "ts": "2025-09-24T03:32:36Z"}
+{"type": "user_input", "text": "/load_local_game partidas/partida1.json", "ts": "2025-09-24T03:34:55Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "params": {"source": "local", "file_path": "partidas/partida1.json"}, "ts": "2025-09-24T03:34:55Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "load_game", "result": {"game_id": "6f56a921-6888-4217-a991-a2d89c255935", "moves_count": 0, "source": "local"}, "ts": "2025-09-24T03:34:58Z"}
+{"type": "user_input", "text": "/analyze 54e665c6-edaa-45e3-84a5-e3cc40e8e8f56f56a921-6888-4217-a991-a2d89c255935", "ts": "2025-09-24T03:35:14Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "params": {"game_id": "54e665c6-edaa-45e3-84a5-e3cc40e8e8f56f56a921-6888-4217-a991-a2d89c255935", "max_depth": 2}, "ts": "2025-09-24T03:35:14Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "analyze_game", "result": {"analysis": "Análisis simulado para 54e665c6-edaa-45e3-84a5-e3cc40e8e8f56f56a921-6888-4217-a991-a2d89c255935"}, "ts": "2025-09-24T03:35:16Z"}
+{"type": "user_input", "text": "/simulate 6f56a921-6888-4217-a991-a2d89c255935 5", "ts": "2025-09-24T03:35:39Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "params": {"game_id": "6f56a921-6888-4217-a991-a2d89c255935", "until_move": 5, "max_depth": 4}, "ts": "2025-09-24T03:35:39Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "simulate", "result": {"simulation": "Simulación hasta 5 jugadas para 6f56a921-6888-4217-a991-a2d89c255935"}, "ts": "2025-09-24T03:35:42Z"}
+{"type": "user_input", "text": "/export 6f56a921-6888-4217-a991-a2d89c255935", "ts": "2025-09-24T03:35:52Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "params": {"game_id": "6f56a921-6888-4217-a991-a2d89c255935", "format": "both"}, "ts": "2025-09-24T03:35:52Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8080/rpc", "method": "export_report", "result": {"report": "Reporte JSON/HTML para 6f56a921-6888-4217-a991-a2d89c255935"}, "ts": "2025-09-24T03:35:54Z"}
+{"type": "user_input", "text": ">> /fs_write test.txt \"Hola mundo desde MCP\"", "ts": "2025-09-24T03:36:49Z"}
+{"type": "user_input", "text": ">> /git_create_repo 12", "ts": "2025-09-24T03:37:33Z"}
+{"type": "user_input", "text": "/git_create_repo 12", "ts": "2025-09-24T03:37:41Z"}
+{"type": "mcp_request", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "params": {"name": "12"}, "ts": "2025-09-24T03:37:41Z"}
+{"type": "mcp_response", "endpoint": "http://localhost:8082/rpc", "method": "git.create_repo", "result": {"status": "ok", "repo_id": "678aa13a-be72-40a9-b501-83d0b249c200", "name": "12"}, "ts": "2025-09-24T03:37:43Z"}
+{"type": "user_input", "text": "/ask Que hora es", "ts": "2025-09-24T03:40:15Z"}
